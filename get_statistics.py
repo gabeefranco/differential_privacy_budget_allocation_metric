@@ -1,6 +1,6 @@
 import pandas as pd
 
-file = "./dados/pnad_trimestral_trimestre_012026.parquet"
+file = "./data/pnad_trimestral_trimestre_012026.parquet"
 
 
 regions_ufs = {
@@ -22,26 +22,41 @@ renda = "VD4019"
 
 df = pd.read_parquet(file)
 
-print(f"TOTAL: {df.shape[0]}")
-print(f"QUANTIDADE DE INFORMAIS: {(df[carteira_assinada] == 2).sum()}")
-print(f"QUANTIDADE DE FORMAIS: {(df[carteira_assinada] == 1).sum()}")
-print("\n")
+
+def get_regions():
+
+    for region_name in regions_names:
+        region_df = df[df["UF"].isin(regions_ufs[region_name])]
+        regions[region_name] = {
+            "informal_count": (region_df[carteira_assinada] == 2).shape[0],
+            "informal_mean": region_df.loc[
+                region_df[carteira_assinada] == 2, renda
+            ].mean(),
+            "informal_std": region_df.loc[
+                region_df[carteira_assinada] == 2, renda
+            ].std(),
+            "formal_count": (region_df[carteira_assinada] == 1).shape[0],
+            "formal_mean": region_df.loc[
+                region_df[carteira_assinada] == 1, renda
+            ].mean(),
+            "formal_std": region_df.loc[region_df[carteira_assinada] == 1, renda].std(),
+        }
+    return regions
 
 
-for region_name in regions_names:
-    region_df = df[df["UF"].isin(regions_ufs[region_name])]
-    regions[region_name] = {
-        "informal_count": (region_df[carteira_assinada] == 2).shape[0],
-        "informal_mean": region_df.loc[region_df[carteira_assinada] == 2, renda].mean(),
-        "informal_std": region_df.loc[region_df[carteira_assinada] == 2, renda].std(),
-        "formal_count": (region_df[carteira_assinada] == 1).shape[0],
-        "formal_mean": region_df.loc[region_df[carteira_assinada] == 1, renda].mean(),
-        "formal_std": region_df.loc[region_df[carteira_assinada] == 1, renda].std(),
-    }
+def main():
+    get_regions()
+    print(f"TOTAL: {df.shape[0]}")
+    print(f"QUANTIDADE DE INFORMAIS: {(df[carteira_assinada] == 2).sum()}")
+    print(f"QUANTIDADE DE FORMAIS: {(df[carteira_assinada] == 1).sum()}")
+    print("\n")
+    for region_name in regions_names:
+        print(f"REGIÃO: {region_name}")
+        for key, value in regions[region_name].items():
+            print(f"{key}: {value}")
+        print("------------------------------")
+        print("")
 
-for region_name in regions_names:
-    print(f"REGIÃO: {region_name}")
-    for key, value in regions[region_name].items():
-        print(f"{key}: {value}")
-    print("------------------------------")
-    print("")
+
+if __name__ == "__main__":
+    main()

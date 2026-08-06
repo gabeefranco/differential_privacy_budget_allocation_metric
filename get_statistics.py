@@ -6,7 +6,7 @@ file = "./data/pnad_trimestral_trimestre_012026.parquet"
 regions_ufs = {
     "Sul": [41, 42, 43],
     "Sudeste": [31, 32, 33, 35],
-    "Centro-Oeste": [50, 51, 52, 53],
+    "CentroOeste": [50, 51, 52, 53],
     "Norte": [11, 12, 13, 14, 15, 16, 17],
     "Nordeste": [21, 22, 23, 24, 25, 26, 27, 28, 29],
 }

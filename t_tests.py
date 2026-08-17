@@ -1,7 +1,5 @@
-from get_statistics import get_regions, regions_names
+from data import regions_names
 import math
-
-regions = get_regions()
 
 
 def t(n1, mean1, std1, n2, mean2, std2):
@@ -10,7 +8,7 @@ def t(n1, mean1, std1, n2, mean2, std2):
     )
 
 
-def run_all_t_tests():
+def run_all_t_tests(regions):
     tests = {}
     for name1 in regions_names:
         for name2 in regions_names:
@@ -54,4 +52,7 @@ def run_all_t_tests():
 
 
 if __name__ == "__main__":
-    print(run_all_t_tests())
+    from data import get_regions
+
+    regions = get_regions()
+    print(run_all_t_tests(regions))

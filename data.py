@@ -51,10 +51,10 @@ def get_regions(df: pd.DataFrame, C: float):
                 region_df[carteira_assinada] == 1, renda_norm
             ].std(ddof=0),
             "sens_count": 1.0,
-            "sens_formal_mean": C / (n_formal - 1),
-            "sens_formal_std": C / np.sqrt(n_formal - 1),
-            "sens_informal_mean": C / (n_informal - 1),
-            "sens_informal_std": C / np.sqrt(n_informal - 1),
+            "sens_formal_mean": 1 / (n_formal - 1),
+            "sens_formal_std": 1 / np.sqrt(n_formal - 1),
+            "sens_informal_mean": 1 / (n_informal - 1),
+            "sens_informal_std": 1 / np.sqrt(n_informal - 1),
         }
     return regions
 

@@ -27,14 +27,20 @@ To reproduce (in a Linux shell):
 2. Send an interrupt (Ctrl+C) when N exceeds 500.
 3. To find the number of hours, based on the last N and the elapsed time (t): `((1352078*t)/n)/3600`
 
-Laptop (Intel Core i5 1135G7 - 8GB RAM)
-PC (AMD Ryzen 7 8700G - 32GB RAM)
+Tested Hardware:
 
-Laptop: 514 iterations in 12.13s
-PC: 493 iterations in 8.11s
+- Laptop (Intel Core i5 1135G7 - 8GB RAM)
+- Desktop (AMD Ryzen 7 8700G - 32GB RAM)
 
-Estimated total time on the laptop: 8h51m
-Estimated total time on the PC: 6h10m
+Partial Results:
+
+- Laptop: 514 iterations in 12.13s
+- Desktop: 493 iterations in 8.11s
+
+Total Results:
+
+- Estimated total time on the Laptop: 8h51m
+- Estimated total time on the Desktop: 6h10m
 
 ## Tasks
 

@@ -126,7 +126,9 @@ print(formal_sen)
 results = []
 best_metric = sys.float_info.max
 
+n = 0
 for bud in sequences:
+    n += 1
     metric = 0
     sta = informal_sta + formal_sta
     sen = informal_sen + formal_sen
@@ -135,7 +137,7 @@ for bud in sequences:
     metric += us_result
     metric += ue_result[0] + ue_result[1]
     metric = metric / 14.0
-    print(metric)
+    print(f"n={n}; metric={metric}")
     results.append([*bud, metric])
     if metric < best_metric:
         best_metric = metric

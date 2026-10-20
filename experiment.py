@@ -101,54 +101,58 @@ def ue(sta_true, bud, sen):
     return result
 
 
-df = pd.read_parquet(FILE)
-df = clip_and_normalize(df, C)
-regions = get_regions(df, C)
+def main():
+    df = pd.read_parquet(FILE)
+    df = clip_and_normalize(df, C)
+    regions = get_regions(df, C)
 
-sequences = []
-if sys.argv[1] == "real":
-    sequences = generate_sequences()
-elif sys.argv[1] == "teste":
-    sequences = [
-        [1 for _ in range(12)],
-        [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5],
-        [2 for _ in range(12)],
-    ]
+    sequences = []
+    if sys.argv[1] == "real":
+        sequences = generate_sequences()
+    elif sys.argv[1] == "teste":
+        sequences = [
+            [1 for _ in range(12)],
+            [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5],
+            [2 for _ in range(12)],
+        ]
 
-informal_sta = get_informal_sta(regions)
-formal_sta = get_formal_sta(regions)
-informal_sen = get_informal_sen(regions)
-formal_sen = get_formal_sen(regions)
+    informal_sta = get_informal_sta(regions)
+    formal_sta = get_formal_sta(regions)
+    informal_sen = get_informal_sen(regions)
+    formal_sen = get_formal_sen(regions)
 
-print(informal_sen)
-print(formal_sen)
+    print(informal_sen)
+    print(formal_sen)
 
-results = []
-best_metric = sys.float_info.max
+    results = []
+    best_metric = sys.float_info.max
 
-n = 0
-for bud in sequences:
-    n += 1
-    metric = 0
-    sta = informal_sta + formal_sta
-    sen = informal_sen + formal_sen
-    us_result = us(bud, sen)
-    ue_result = ue(sta, bud, sen)
-    metric += us_result
-    metric += ue_result[0] + ue_result[1]
-    metric = metric / 14.0
-    print(f"n={n}; metric={metric}")
-    results.append([*bud, metric])
-    if metric < best_metric:
-        best_metric = metric
+    n = 0
+    for bud in sequences:
+        n += 1
+        metric = 0
+        sta = informal_sta + formal_sta
+        sen = informal_sen + formal_sen
+        us_result = us(bud, sen)
+        ue_result = ue(sta, bud, sen)
+        metric += us_result
+        metric += ue_result[0] + ue_result[1]
+        metric = metric / 14.0
+        print(f"n={n}; metric={metric}")
+        results.append([*bud, metric])
+        if metric < best_metric:
+            best_metric = metric
 
-print(f"melhor metrica: {best_metric}")
+    print(f"melhor metrica: {best_metric}")
 
 # gera um dataframe do pandas com cada valor de bud de cada sequência, seguido do resultado da metrica para aquela sequência
-cols = [f"bud_{i}" for i in range(1, 13)]
-cols.append("metric")
+    cols = [f"bud_{i}" for i in range(1, 13)]
+    cols.append("metric")
 
-result_df = pd.DataFrame(results, columns=cols)
-result_df.to_csv("result.csv")
+    result_df = pd.DataFrame(results, columns=cols)
+    result_df.to_csv("result.csv")
 
-print("Dados salvos em result.csv")
+    print("Dados salvos em result.csv")
+
+if __name__ == '__main__':
+    main()
